@@ -13,6 +13,7 @@ class PageVC: UIPageViewController {
     var currentPage = 0
     var locationsArray = ["Local City", "Syndey, Australia", "Accra, Ghana", "Uglich, Russia"]
     var pageControl: UIPageControl!
+    var listButton: UIButton!
     var barButtonWidth: CGFloat = 44
     var barButtonHeight: CGFloat = 44
     
@@ -26,9 +27,10 @@ class PageVC: UIPageViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         configurePageControl()
+        configureListButton()
     }
     
-    
+    //MARK:- UI Configuration Methods
     func configurePageControl() {
         let pageControlHeight: CGFloat = barButtonHeight
         let pageControlWidth: CGFloat = view.frame.width - (barButtonWidth * 2)
@@ -38,9 +40,23 @@ class PageVC: UIPageViewController {
         pageControl.currentPageIndicatorTintColor = UIColor.black
         pageControl.numberOfPages = locationsArray.count
         pageControl.currentPage = currentPage
+        pageControl.addTarget(self, action: #selector(pageControlPressed), for: .touchUpInside)
+        
         view.addSubview(pageControl)
     }
     
+    func configureListButton() {
+        let safeHeight = view.frame.height - view.safeAreaInsets.bottom
+        listButton = UIButton(frame: CGRect(x: view.frame.width - barButtonWidth, y: safeHeight - barButtonHeight, width: barButtonWidth, height: barButtonHeight))
+        listButton.setImage(UIImage(named: "listbutton"), for: .normal)
+        listButton.setImage(UIImage(named: "listbutton-highlighted"), for: .highlighted)
+        listButton.addTarget(self, action: #selector(segueToLocationVC), for: .touchUpInside)
+        view.addSubview(listButton)
+    }
+    @objc func segueToLocationVC() {
+        print("Hey! You clicked list button!")
+    }
+    //MARK:- Create View Controller for UIPageViewController
     func createDetailVC(forPage page: Int) -> DetailVC {
         currentPage = min(max(0, page), locationsArray.count - 1)
         let detailVC = storyboard!.instantiateViewController(withIdentifier: "DetailVC") as! DetailVC
@@ -66,7 +82,6 @@ extension PageVC: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
         if let currentViewController = viewController as? DetailVC {
             if currentViewController.currentPage > 0 {
                 return createDetailVC(forPage: currentViewController.currentPage - 1)
-        
             }
         }
         return nil
@@ -76,7 +91,16 @@ extension PageVC: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
             pageControl.currentPage = currentViewController.currentPage
         }
     }
-   
+    
+    @objc func pageControlPressed() {
+        guard let currentViewController = self.viewControllers?[0] as? DetailVC else {return}
+            currentPage = currentViewController.currentPage
+            if pageControl.currentPage < currentPage {
+                setViewControllers([createDetailVC(forPage: pageControl.currentPage)], direction: .reverse, animated: true, completion: nil)
+            } else if pageControl.currentPage > currentPage {
+                setViewControllers([createDetailVC(forPage: pageControl.currentPage)], direction: .forward, animated: true, completion: nil)
+            }
+        }
     
     
 }

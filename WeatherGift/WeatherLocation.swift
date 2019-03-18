@@ -14,6 +14,8 @@ class WeatherLocation {
     var name = ""
     var coordinates = ""
     var currentTemp = "--"
+    var dailySummary = "--"
+    
     func getWeather(completed: @escaping () -> ()) {
         let weatherURL = urlBase + urlApiKey + coordinates
         Alamofire.request(weatherURL).responseJSON { response in
@@ -26,6 +28,11 @@ class WeatherLocation {
                     self.currentTemp = roundedTemp + "°"
                 } else {
                     print("Could not return temeprature")
+                }
+                if let summary = json["daily"]["summary"].string {
+                    self.dailySummary = summary
+                } else {
+                    print("Could not return daily weather summary")
                 }
             case .failure(let error):
                 print(error)

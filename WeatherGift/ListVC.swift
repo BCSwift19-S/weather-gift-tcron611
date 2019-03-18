@@ -54,11 +54,11 @@ class ListVC: UIViewController {
 //        let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.name.rawValue) |
 //            UInt(GMSPlaceField.placeID.rawValue))!
 //        autocompleteController.placeFields = fields
-
-        // Specify a filter.
-        let filter = GMSAutocompleteFilter()
-        filter.type = .city
-        autocompleteController.autocompleteFilter = filter
+//
+//        // Specify a filter.
+//        let filter = GMSAutocompleteFilter()
+//        filter.type = .city
+//        autocompleteController.autocompleteFilter = filter
 
         // Display the autocomplete view controller.
         present(autocompleteController, animated: true, completion: nil)

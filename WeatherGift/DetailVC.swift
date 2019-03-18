@@ -80,11 +80,12 @@ extension DetailVC: CLLocationManagerDelegate {
                let placemark = placemarks!.last
                place = (placemark?.name)!
             } else {
-                print("Error retrieving place. Error Code\(error)")
+                print("Error retrieving place")// Error Code\(error)")
                 place = "Unknown Weather Location"
             }
             self.locationsArray[0].name = place
             self.locationsArray[0].coordinates = currentCoordinates
+            self.locationsArray[0].getWeather()
             self.updateUserInterface()
         })
     }

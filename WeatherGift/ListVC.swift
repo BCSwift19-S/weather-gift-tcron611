@@ -49,17 +49,17 @@ class ListVC: UIViewController {
     @IBAction func addBarButtonPressed(_ sender: UIBarButtonItem) {
         let autocompleteController = GMSAutocompleteViewController()
         autocompleteController.delegate = self
-        
-        // Specify the place data types to return.
-        let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.name.rawValue) |
-            UInt(GMSPlaceField.placeID.rawValue))!
-        autocompleteController.placeFields = fields
-        
+//
+//        // Specify the place data types to return.
+//        let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.name.rawValue) |
+//            UInt(GMSPlaceField.placeID.rawValue))!
+//        autocompleteController.placeFields = fields
+
         // Specify a filter.
         let filter = GMSAutocompleteFilter()
         filter.type = .city
         autocompleteController.autocompleteFilter = filter
-        
+
         // Display the autocomplete view controller.
         present(autocompleteController, animated: true, completion: nil)
     }
@@ -101,7 +101,13 @@ extension ListVC: UITableViewDelegate, UITableViewDataSource {
     }
     func updateTable(place: GMSPlace) {
         let newIndexPath = IndexPath(row: locationsArray.count, section: 0)
-        locationsArray.append(place.name!)
+        var newWeatherLocation = WeatherLocation()
+        newWeatherLocation.name = place.name!
+        let latitude = place.coordinate.latitude
+        let longtitude = place.coordinate.longitude
+        newWeatherLocation.coordinates = "\(latitude),\(longtitude)"
+        print(newWeatherLocation.coordinates)
+        locationsArray.append(newWeatherLocation)
         tableView.insertRows(at: [newIndexPath], with: .automatic)
     }
 }
@@ -110,7 +116,6 @@ extension ListVC: GMSAutocompleteViewControllerDelegate {
     
     // Handle the user's selection.
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        print("Place name: \(place.name)")
         dismiss(animated: true, completion: nil)
         updateTable(place: place)
     }

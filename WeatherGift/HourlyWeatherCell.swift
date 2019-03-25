@@ -18,12 +18,11 @@ private let dateFormatter: DateFormatter = {
 class HourlyWeatherCell: UICollectionViewCell {
     
     @IBOutlet weak var hourlyTime: UILabel!
-    @IBOutlet weak var hourlyTemp: UILabel!
     @IBOutlet weak var hourlyPrecipProb: UILabel!
     @IBOutlet weak var hourlyIcon: UIImageView!
     @IBOutlet weak var rainDropImage: UIImageView!
-    
-    func update(with hourlyForecast: WeatherLocation.HourlyForecast, timeZone: String) {
+    @IBOutlet weak var hourlyTemp: UILabel!
+    func update(with hourlyForecast: WeatherDetail.HourlyForecast, timeZone: String) {
         hourlyTemp.text = String(format: "%2.f", hourlyForecast.hourlyTemp) + "°"
         hourlyIcon.image = UIImage(named: "small-" + hourlyForecast.hourlyIcon)
         let precipProb = hourlyForecast.hourlyPrecipProb * 100

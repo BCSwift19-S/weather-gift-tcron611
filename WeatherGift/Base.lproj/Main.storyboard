@@ -173,7 +173,7 @@
                                         <connections>
                                             <outlet property="hourlyIcon" destination="Tpi-Zw-R1n" id="hfb-sh-l0i"/>
                                             <outlet property="hourlyPrecipProb" destination="HKV-Id-SjK" id="5CE-PS-gXK"/>
-                                            <outlet property="hourlyTemp" destination="HKV-Id-SjK" id="iLj-Al-dof"/>
+                                            <outlet property="hourlyTemp" destination="oFg-Nn-ZOx" id="W7l-Hk-M0N"/>
                                             <outlet property="hourlyTime" destination="fc6-Fr-9eC" id="iXs-mw-5V1"/>
                                             <outlet property="rainDropImage" destination="2kH-I9-00u" id="Poj-eZ-eOn"/>
                                         </connections>
